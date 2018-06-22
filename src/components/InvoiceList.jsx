@@ -3,13 +3,17 @@ import PropTypes from 'prop-types';
 import { Table, Button } from 'antd';
 import styled from 'styled-components';
 
-export const ButtonsBar = styled.div`
+const ButtonsBar = styled.div`
   margin-bottom: 10px;
+`;
+
+const MonospacedLink = styled.a`
+  font-family: Menlo, Consolas, monospace;
 `;
 
 export const InvoiceList = (props) => {
   const {
-    invoices, onGoToInvoice, onDeleteInvoice, onCreateInvoice,
+    loading, invoices, onGoToInvoice, onDeleteInvoice, onCreateInvoice,
   } = props;
 
   const columns = [
@@ -17,7 +21,7 @@ export const InvoiceList = (props) => {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      render: id => <a onClick={() => onGoToInvoice(id)}>{id}</a>,
+      render: id => <MonospacedLink onClick={() => onGoToInvoice(id)}>{id}</MonospacedLink>,
     },
     {
       title: 'Title',
@@ -49,24 +53,29 @@ export const InvoiceList = (props) => {
           Create
         </Button>
       </ButtonsBar>
-      <Table columns={columns} dataSource={invoices} />
+      <Table loading={loading} columns={columns} dataSource={invoices} />
     </div>
   );
 };
 
 InvoiceList.propTypes = {
+  loading: PropTypes.bool,
   invoices: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
     }),
   ),
-  onGoToInvoice: PropTypes.func.isRequired,
-  onDeleteInvoice: PropTypes.func.isRequired,
-  onCreateInvoice: PropTypes.func.isRequired,
+  onGoToInvoice: PropTypes.func,
+  onDeleteInvoice: PropTypes.func,
+  onCreateInvoice: PropTypes.func,
 };
 
 InvoiceList.defaultProps = {
+  loading: false,
   invoices: [],
+  onGoToInvoice: () => {},
+  onDeleteInvoice: () => {},
+  onCreateInvoice: () => {},
 };
 
 export default InvoiceList;
