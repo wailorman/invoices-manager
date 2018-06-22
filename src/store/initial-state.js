@@ -1,8 +1,8 @@
 export const initialState = {
-  invoices: {
-    list: [],
-    objects: {},
-  },
+  // invoices: {
+  //   list: [],
+  //   objects: {},
+  // },
   auth: {
     loggedIn: false,
   },
