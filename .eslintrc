@@ -4,7 +4,8 @@
     "react/jsx-filename-extension": "off",
     "import/no-extraneous-dependencies": "off",
     "no-unused-vars": "warn",
-    "implicit-arrow-linebreak": "off"
+    "implicit-arrow-linebreak": "off",
+    "react/jsx-one-expression-per-line": "off"
   },
   "globals": {
     "document": true,
