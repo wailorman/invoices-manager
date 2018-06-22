@@ -1,8 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import { Form, Input, Button, Icon } from 'antd';
+import {
+  Form, Button, Icon,
+} from 'antd';
 import compose from 'compose-function';
+import { reduxForm, Field } from 'redux-form';
+import { TextField } from 'redux-form-antd';
 
 const PageWrapper = styled.div`
   min-width: 100wh;
@@ -30,44 +34,13 @@ const FullWitdthButton = styled(Button)`
 
 export const Auth = compose(Form.create())((props) => {
   const {
-    form,
-    form: { getFieldDecorator },
     onAuth,
   } = props;
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    form.validateFields((err, values) => {
-      if (err) return;
-
-      onAuth(values);
-    });
-  };
 
   return (
     <PageWrapper>
       <FormWrapper>
-        <Form onSubmit={handleSubmit}>
-          <Form.Item>
-            {getFieldDecorator('login')(<Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Login"
-            />)}
-          </Form.Item>
-          <Form.Item>
-            {getFieldDecorator('password')(<Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />)}
-          </Form.Item>
-          <Form.Item>
-            <FullWitdthButton type="primary" htmlType="submit">
-              Log in
-            </FullWitdthButton>
-          </Form.Item>
-        </Form>
+        <AuthForm onSubmit={onAuth} />
       </FormWrapper>
     </PageWrapper>
   );
@@ -76,5 +49,34 @@ export const Auth = compose(Form.create())((props) => {
 Auth.propTypes = {
   onAuth: PropTypes.func.isRequired,
 };
+
+export const AuthForm = reduxForm({ form: 'auth' })(({ handleSubmit }) => (
+  <Form onSubmit={handleSubmit}>
+    <Form.Item>
+      <Field
+        name="login"
+        placeholder="Login"
+        hasFeedback={false}
+        prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        component={TextField}
+      />
+    </Form.Item>
+    <Form.Item>
+      <Field
+        name="password"
+        prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
+        type="password"
+        placeholder="Password"
+        hasFeedback={false}
+        component={TextField}
+      />
+    </Form.Item>
+    <Form.Item>
+      <FullWitdthButton type="primary" htmlType="submit">
+        Log in
+      </FullWitdthButton>
+    </Form.Item>
+  </Form>
+));
 
 export default Auth;

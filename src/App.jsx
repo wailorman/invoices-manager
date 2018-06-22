@@ -1,19 +1,23 @@
+/* eslint-disable react/prefer-stateless-function */
+
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { Provider } from 'react-redux';
+import { Route } from 'react-router-dom';
+import { ConnectedRouter } from 'connected-react-router';
+import 'antd/dist/antd.css';
+
+import { store, history } from './store/store';
+import { AuthContainer } from './containers/AuthContainer';
 import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Route exact path="/auth" component={AuthContainer} />
+        </ConnectedRouter>
+      </Provider>
     );
   }
 }
