@@ -25,6 +25,11 @@ export const InvoiceList = (props) => {
       key: 'title',
     },
     {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+    },
+    {
       title: '',
       dataIndex: 'actions',
       key: 'actions',

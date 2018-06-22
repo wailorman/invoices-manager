@@ -14,12 +14,14 @@ const invoices = [
   {
     id: 'SKG-01',
     title: 'Test name',
+    status: 'In progress',
     body: `Lorem
            ipsum`,
   },
   {
     id: 'SKG-02',
     title: 'Another ticket',
+    status: 'Done',
     body: `Lorem
            ipsum`,
   },
