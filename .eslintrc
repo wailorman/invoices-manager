@@ -1,6 +1,11 @@
 {
   "extends": "airbnb",
-  "rules": { "react/jsx-filename-extension": "off", "import/no-extraneous-dependencies": "off" },
+  "rules": {
+    "react/jsx-filename-extension": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-unused-vars": "warn",
+    "implicit-arrow-linebreak": "off"
+  },
   "globals": {
     "document": true,
     "window": true
