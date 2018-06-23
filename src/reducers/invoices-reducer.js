@@ -40,6 +40,7 @@ export const objectsReducer = (state = {}, action = {}) => {
       return omit(state, action.payload.id);
 
     case AT.CREATE_INVOICE:
+    case AT.UPDATE_INVOICE:
       return {
         ...state,
         [action.payload.invoice.id]: action.payload.invoice,
