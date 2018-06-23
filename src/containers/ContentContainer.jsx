@@ -1,8 +1,11 @@
 import React from 'react';
 import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
 import { Layout, Menu } from 'antd';
+
+import * as AuthActions from '../actions/auth-actions';
 
 import { InvoicesListContainer } from './InvoiceListContainer';
 import { InvoiceEditContainer } from './InvoiceEditContainer';
@@ -15,6 +18,7 @@ const StyledContent = styled(Layout.Content)`
 `;
 
 const InvoicesManagerLogo = styled.div`
+  display: inline-block;
   height: 100%;
   vertical-align: middle;
   font-family: Menlo, Consolas, monospace;
@@ -31,11 +35,17 @@ const BreadcrumbsBar = () => (
   </BreadcrumbsWrapper>
 );
 
-export const ContentContainer = () => (
+export const ContentContainer = connect(
+  null,
+  dispatch => ({ unauth: () => dispatch(AuthActions.unauth()) }),
+)(({ unauth }) => (
   <Layout>
     <Layout.Header>
       <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}>
         <InvoicesManagerLogo>INVOICES MANAGER</InvoicesManagerLogo>
+        <Menu.Item key="logout" style={{ float: 'right' }}>
+          <a onClick={unauth}>Log out</a>
+        </Menu.Item>
       </Menu>
     </Layout.Header>
     <StyledContent>
@@ -46,6 +56,6 @@ export const ContentContainer = () => (
       </Switch>
     </StyledContent>
   </Layout>
-);
+));
 
 export default ContentContainer;

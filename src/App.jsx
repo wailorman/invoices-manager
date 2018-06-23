@@ -21,8 +21,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/invoices" />} />
             <Route exact path="/auth" component={AuthContainer} />
-            {/* <Route path="/invoices" component={RequireAuth(ContentContainer)} /> */}
-            <Route path="/invoices" component={ContentContainer} />
+            <Route path="/invoices" component={RequireAuth(ContentContainer)} />
           </Switch>
         </ConnectedRouter>
       </Provider>
