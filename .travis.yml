@@ -9,6 +9,7 @@ notifications:
 cache:
   directories:
   - node_modules
+  - build
 script:
   - "npm run build"
   - "npm run build-storybook"
