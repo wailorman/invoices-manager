@@ -53,7 +53,7 @@ export const InvoiceList = (props) => {
           Create
         </Button>
       </ButtonsBar>
-      <Table loading={loading} columns={columns} dataSource={invoices} />
+      <Table rowKey="id" loading={loading} columns={columns} dataSource={invoices} />
     </div>
   );
 };

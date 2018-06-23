@@ -1,8 +1,10 @@
 export const initialState = {
-  // invoices: {
-  //   list: [],
-  //   objects: {},
-  // },
+  invoices: {
+    list: [],
+    objects: {},
+    loading: false,
+    lastId: 1,
+  },
   auth: {
     loggedIn: false,
   },

@@ -8,15 +8,10 @@ import 'antd/dist/antd.css';
 
 import { store, history } from './store/store';
 import { AuthContainer } from './containers/AuthContainer';
+import { ContentContainer } from './containers/ContentContainer';
 import './App.css';
 
 import { RequireAuth } from './utils/RequireAuth';
-
-const Test = () => (
-  <div>
-PROTECTED
-  </div>
-);
 
 class App extends Component {
   render() {
@@ -26,7 +21,8 @@ class App extends Component {
           <Switch>
             <Route exact path="/" render={() => <Redirect to="/invoices" />} />
             <Route exact path="/auth" component={AuthContainer} />
-            <Route exact path="/invoices" component={RequireAuth(Test)} />
+            {/* <Route path="/invoices" component={RequireAuth(ContentContainer)} /> */}
+            <Route path="/invoices" component={ContentContainer} />
           </Switch>
         </ConnectedRouter>
       </Provider>
