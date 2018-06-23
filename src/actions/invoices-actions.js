@@ -1,66 +1,77 @@
 /* eslint-disable import/prefer-default-export */
-import { push } from 'connected-react-router';
 import padStart from 'lodash/padStart';
 
 import * as AT from '../constants/action-types';
 import * as InvoiceSelectors from '../selectors/invoices-selector';
+import * as Storage from '../store/storage';
 import Statuses from '../constants/statuses';
 
-export const goToInvoice = id => (dispatch) => {
-  dispatch(push(`/invoices/${id}`));
-};
-
-export const deleteInvoice = id => (dispatch) => {
+export const deleteInvoice = id => async (dispatch) => {
   dispatch({ type: AT.DELETE_INVOICE, payload: { id } });
+
+  await Storage.deleteInvoice(id);
 };
 
-export const createInvoice = () => (dispatch, getState) => {
+export const createInvoice = () => async (dispatch, getState) => {
   const state = getState();
   const lastId = InvoiceSelectors.lastInvoiceIdSelector(state);
 
-  const newId = `SGI-${padStart(lastId + 1, 4, '0')}`;
+  const id = `SGI-${padStart(lastId + 1, 4, '0')}`;
 
-  const newInvoice = {
-    id: newId,
-    title: 'New invoice',
+  const invoice = {
+    id,
+    title: '',
     status: Statuses.PENDING,
   };
 
   dispatch({
     type: AT.CREATE_INVOICE,
     payload: {
-      invoice: newInvoice,
+      invoice,
     },
   });
 
-  // const idNumbers = invoicesList.map((id) => {
-  //   const match = id.match(/\d+/gi);
-  //   return match ? +match[0] : 0;
-  // });
-
-  // const
-
-  // debugger;
+  await Storage.pushOneInvoice({ ...invoice, id });
 };
 
-export const fetchInvoices = () => (dispatch) => {
+export const updateInvoice = (id, invoice) => async (dispatch) => {
+  dispatch({
+    type: AT.UPDATE_INVOICE,
+    payload: {
+      id,
+      invoice,
+    },
+  });
+
+  await Storage.pushOneInvoice({ ...invoice, id });
+};
+
+export const fetchAllInvoices = () => async (dispatch) => {
   dispatch({
     type: AT.INVOICES_FETCH,
   });
 
-  setTimeout(() => {
+  setTimeout(async () => {
     dispatch({
       type: AT.INVOICES_FETCH_SUCCESS,
       payload: {
-        invoices: [
-          {
-            id: 'SGI-0001',
-            title: 'New title',
-            body: 'Lorem\nipsum',
-            status: Statuses.IN_PROGRESS,
-          },
-        ],
+        invoices: Object.values(await Storage.fetchAllInvoices()),
       },
     });
-  }, 1500);
+  }, 1000);
+};
+
+export const fetchOneInvoice = id => async (dispatch) => {
+  dispatch({
+    type: AT.ONE_INVOICE_FETCH,
+  });
+
+  setTimeout(async () => {
+    dispatch({
+      type: AT.ONE_INVOICE_FETCH_SUCCESS,
+      payload: {
+        invoice: await Storage.fetchOneInvoice(id),
+      },
+    });
+  }, 1000);
 };

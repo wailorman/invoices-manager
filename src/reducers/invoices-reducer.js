@@ -1,14 +1,19 @@
 import { combineReducers } from 'redux';
+import uniq from 'lodash/uniq';
+import omit from 'lodash/omit';
+
 import * as AT from '../constants/action-types';
 
 export const listReducer = (state = {}, action = {}) => {
   switch (action.type) {
     case AT.INVOICES_FETCH_SUCCESS:
       return action.payload.invoices.map(({ id }) => id);
+    case AT.ONE_INVOICE_FETCH_SUCCESS:
+      return uniq([...state, action.payload.invoice.id]);
     case AT.DELETE_INVOICE:
       return state.filter(invoiceId => invoiceId !== action.payload.id);
     case AT.CREATE_INVOICE:
-      return [...state, action.payload.invoice.id];
+      return uniq([...state, action.payload.invoice.id]);
 
     default:
       return state;
@@ -25,11 +30,15 @@ export const objectsReducer = (state = {}, action = {}) => {
         }),
         {},
       );
-    case AT.DELETE_INVOICE:
+    case AT.ONE_INVOICE_FETCH_SUCCESS:
       return {
         ...state,
-        [action.payload.id]: null,
+        [action.payload.invoice.id]: action.payload.invoice,
       };
+
+    case AT.DELETE_INVOICE:
+      return omit(state, action.payload.id);
+
     case AT.CREATE_INVOICE:
       return {
         ...state,
@@ -44,8 +53,11 @@ export const objectsReducer = (state = {}, action = {}) => {
 export const loadingReducer = (state = false, action = {}) => {
   switch (action.type) {
     case AT.INVOICES_FETCH:
+    case AT.ONE_INVOICE_FETCH:
       return true;
+
     case AT.INVOICES_FETCH_SUCCESS:
+    case AT.ONE_INVOICE_FETCH_SUCCESS:
       return false;
 
     default:
