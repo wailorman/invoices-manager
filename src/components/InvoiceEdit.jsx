@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button } from 'antd';
+import { Form, Button, Icon } from 'antd';
 import { TextField, SelectField } from 'redux-form-antd';
 import { reduxForm, Field } from 'redux-form';
 import styled from 'styled-components';
@@ -17,11 +17,29 @@ const StyledFormItem = styled(Form.Item)`
   margin-bottom: 7px;
 `;
 
-export const InvoiceEdit = ({ invoice, onSave, onDelete }) => (
-  <div>
-    <InvoiceForm initialValues={invoice} onSubmit={onSave} onDelete={onDelete} />
-  </div>
+const LoadingWrapper = styled.div`
+  font-size: 1.7em;
+  max-width: 200px;
+  margin: 0 auto;
+  text-align: center;
+`;
+
+const Loading = () => (
+  <LoadingWrapper>
+    <Icon type="loading" />
+    <br />
+    Loading...
+  </LoadingWrapper>
 );
+
+export const InvoiceEdit = ({
+  invoice, loading, onSave, onDelete,
+}) =>
+  (loading ? (
+    <Loading />
+  ) : (
+    <InvoiceForm initialValues={invoice} onSubmit={onSave} onDelete={onDelete} />
+  ));
 
 InvoiceEdit.propTypes = {
   invoice: PropTypes.shape({
@@ -30,8 +48,9 @@ InvoiceEdit.propTypes = {
     body: PropTypes.string,
     status: PropTypes.string,
   }),
-  onSave: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  onSave: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 InvoiceEdit.defaultProps = {
@@ -41,6 +60,9 @@ InvoiceEdit.defaultProps = {
     body: '',
     status: Statuses.PENDING,
   },
+  loading: false,
+  onSave: () => {},
+  onDelete: () => {},
 };
 
 export const InvoiceForm = reduxForm({ form: 'invoice-form' }, (state, ownProps) => ({

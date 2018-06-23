@@ -1,15 +1,14 @@
 import React from 'react';
-import { Provider } from 'react-redux';
-
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import { store } from '../store/store';
+import Redux from './Redux-decorator';
 // import { linkTo } from '@storybook/addon-links';
 
 import { InvoiceEdit } from '../components/InvoiceEdit';
 
-storiesOf('InvoiceEdit', module).add('basic', () => (
-  <Provider store={store}>
+storiesOf('InvoiceEdit', module)
+  .addDecorator(Redux)
+  .add('basic', () => (
     <InvoiceEdit
       onSave={action('onSave')}
       onDelete={action('onDelete')}
@@ -20,5 +19,5 @@ storiesOf('InvoiceEdit', module).add('basic', () => (
         status: 'In progress',
       }}
     />
-  </Provider>
-));
+  ))
+  .add('loading', () => <InvoiceEdit loading />);
