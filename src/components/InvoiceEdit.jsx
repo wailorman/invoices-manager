@@ -1,12 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Form, Button, Icon } from 'antd';
+import { Form, Button } from 'antd';
 import { TextField, SelectField } from 'redux-form-antd';
 import { reduxForm, Field } from 'redux-form';
 import styled from 'styled-components';
 
 import { statuses as Statuses } from '../constants/statuses';
 import { TextAreaField } from './TextAreaField';
+import { Loading } from './Loading';
 
 const StyledForm = styled(Form)`
   max-width: 720px;
@@ -16,21 +17,6 @@ const StyledForm = styled(Form)`
 const StyledFormItem = styled(Form.Item)`
   margin-bottom: 7px;
 `;
-
-const LoadingWrapper = styled.div`
-  font-size: 1.7em;
-  max-width: 200px;
-  margin: 0 auto;
-  text-align: center;
-`;
-
-const Loading = () => (
-  <LoadingWrapper>
-    <Icon type="loading" />
-    <br />
-    Loading...
-  </LoadingWrapper>
-);
 
 export const InvoiceEdit = ({
   invoice, loading, onSave, onDelete,
