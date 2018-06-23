@@ -71,6 +71,9 @@ export const lastIdReducer = (state = 0, action = {}) => {
     case AT.CREATE_INVOICE:
       return state + 1;
 
+    case AT.UPDATE_LAST_INVOICE_ID:
+      return action.payload;
+
     default:
       return state;
   }

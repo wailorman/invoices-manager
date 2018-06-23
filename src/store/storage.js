@@ -4,12 +4,19 @@ import omit from 'lodash/omit';
 
 const INVOICES_STORAGE_KEY = 'INVOICES_MANAGER_invoices';
 const CREDENTIALS_STORAGE_KEY = 'INVOICES_MANAGER_credentials';
+const LAST_ID_STORAGE_KEY = 'INVOICES_MANAGER_last-id';
 
 export const fetchAllInvoices = async () =>
   JSON.parse(localStorage.getItem(INVOICES_STORAGE_KEY)) || {};
 
 export const pushAllInvoices = async (invoices) => {
   localStorage.setItem(INVOICES_STORAGE_KEY, JSON.stringify(invoices));
+};
+
+export const fetchLastInvoiceId = async () => +localStorage.getItem(LAST_ID_STORAGE_KEY) || 0;
+
+export const updateLastInvoiceId = async (newLastId = 0) => {
+  localStorage.setItem(LAST_ID_STORAGE_KEY, newLastId);
 };
 
 export const fetchOneInvoice = async (id) => {

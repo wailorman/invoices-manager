@@ -34,6 +34,7 @@ export const createInvoice = (options = {}) => async (dispatch, getState) => {
     },
   });
 
+  await Storage.updateLastInvoiceId(lastId + 1);
   await Storage.pushOneInvoice({ ...invoice, id });
 
   if (redirect) {
@@ -60,6 +61,11 @@ export const fetchAllInvoices = () => async (dispatch) => {
 
   setTimeout(async () => {
     dispatch({
+      type: AT.UPDATE_LAST_INVOICE_ID,
+      payload: await Storage.fetchLastInvoiceId(),
+    });
+
+    dispatch({
       type: AT.INVOICES_FETCH_SUCCESS,
       payload: {
         invoices: Object.values(await Storage.fetchAllInvoices()),
@@ -74,6 +80,11 @@ export const fetchOneInvoice = id => async (dispatch) => {
   });
 
   setTimeout(async () => {
+    dispatch({
+      type: AT.UPDATE_LAST_INVOICE_ID,
+      payload: await Storage.fetchLastInvoiceId(),
+    });
+
     dispatch({
       type: AT.ONE_INVOICE_FETCH_SUCCESS,
       payload: {
