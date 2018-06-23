@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import compose from 'compose-function';
 import lifecycle from 'react-pure-lifecycle';
+import { push } from 'connected-react-router';
 
 import { InvoiceList } from '../components/InvoiceList';
 
@@ -14,15 +15,15 @@ export const InvoicesListContainer = compose(
       invoices: InvoiceSeletors.allInvoicesSelector(state),
     }),
     dispatch => ({
-      onGoToInvoice: id => dispatch(InvoiceActions.goToInvoice(id)),
+      onGoToInvoice: id => dispatch(push(`/invoices/${id}`)),
       onDeleteInvoice: id => dispatch(InvoiceActions.deleteInvoice(id)),
       onCreateInvoice: id => dispatch(InvoiceActions.createInvoice(id)),
-      fetchInvoices: () => dispatch(InvoiceActions.fetchInvoices()),
+      fetchAllInvoices: () => dispatch(InvoiceActions.fetchAllInvoices()),
     }),
   ),
   lifecycle({
-    componentDidMount({ fetchInvoices }) {
-      fetchInvoices();
+    componentDidMount({ fetchAllInvoices }) {
+      fetchAllInvoices();
     },
   }),
 )(InvoiceList);
