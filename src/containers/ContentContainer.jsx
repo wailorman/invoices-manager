@@ -1,10 +1,11 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 import { Layout, Menu } from 'antd';
 
-import { InvoicesListContainer } from './InvoicesListContainer';
+import { InvoicesListContainer } from './InvoiceListContainer';
+import { InvoiceEditContainer } from './InvoiceEditContainer';
 
 const StyledContent = styled(Layout.Content)`
   margin: 40px;
@@ -13,17 +14,35 @@ const StyledContent = styled(Layout.Content)`
   min-height: 100vh;
 `;
 
+const InvoicesManagerLogo = styled.div`
+  height: 100%;
+  vertical-align: middle;
+  font-family: Menlo, Consolas, monospace;
+  color: #d8ecff;
+`;
+
+const BreadcrumbsWrapper = styled.div`
+  margin-bottom: 20px;
+`;
+
+const BreadcrumbsBar = () => (
+  <BreadcrumbsWrapper>
+    <Link to="/invoices">← Back to invoices</Link>
+  </BreadcrumbsWrapper>
+);
+
 export const ContentContainer = () => (
   <Layout>
     <Layout.Header>
       <Menu theme="dark" mode="horizontal" style={{ lineHeight: '64px' }}>
-        <Menu.Item key="1">Invoices</Menu.Item>
+        <InvoicesManagerLogo>INVOICES MANAGER</InvoicesManagerLogo>
       </Menu>
     </Layout.Header>
     <StyledContent>
+      <Route exact path="/invoices/:id" component={BreadcrumbsBar} />
       <Switch>
-        <Route exact path="/invoices" render={() => <InvoicesListContainer />} />
-        {/* <Route exact path="/invoices/:id" render={() => <span>2</span>} /> */}
+        <Route exact path="/invoices" component={InvoicesListContainer} />
+        <Route exact path="/invoices/:id" component={InvoiceEditContainer} />
       </Switch>
     </StyledContent>
   </Layout>
