@@ -1,12 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {
-  Form, Button, Icon,
-} from 'antd';
+import { Form, Button, Icon } from 'antd';
 import compose from 'compose-function';
 import { reduxForm, Field } from 'redux-form';
 import { TextField } from 'redux-form-antd';
+import { Loading } from './Loading';
 
 const PageWrapper = styled.div`
   min-width: 100wh;
@@ -33,13 +32,12 @@ const FullWitdthButton = styled(Button)`
 `;
 
 export const Auth = compose(Form.create())((props) => {
-  const {
-    onAuth,
-  } = props;
+  const { onAuth, loading } = props;
 
   return (
     <PageWrapper>
       <FormWrapper>
+        <Loading disabled={!loading} />
         <AuthForm onSubmit={onAuth} />
       </FormWrapper>
     </PageWrapper>
