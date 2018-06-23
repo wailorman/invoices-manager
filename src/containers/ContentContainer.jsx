@@ -11,7 +11,7 @@ import { InvoicesListContainer } from './InvoiceListContainer';
 import { InvoiceEditContainer } from './InvoiceEditContainer';
 
 const StyledContent = styled(Layout.Content)`
-  margin: 40px;
+  margin: 40px 50px;
   padding: 20px 30px;
   background: white;
   min-height: 100vh;
