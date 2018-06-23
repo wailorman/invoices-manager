@@ -17,7 +17,7 @@ export const InvoicesListContainer = compose(
     dispatch => ({
       onGoToInvoice: id => dispatch(push(`/invoices/${id}`)),
       onDeleteInvoice: id => dispatch(InvoiceActions.deleteInvoice(id)),
-      onCreateInvoice: id => dispatch(InvoiceActions.createInvoice(id)),
+      onCreateInvoice: () => dispatch(InvoiceActions.createInvoice({ redirect: true })),
       fetchAllInvoices: () => dispatch(InvoiceActions.fetchAllInvoices()),
     }),
   ),

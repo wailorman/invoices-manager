@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import padStart from 'lodash/padStart';
+import { push } from 'connected-react-router';
 
 import * as AT from '../constants/action-types';
 import * as InvoiceSelectors from '../selectors/invoices-selector';
@@ -12,7 +13,9 @@ export const deleteInvoice = id => async (dispatch) => {
   await Storage.deleteInvoice(id);
 };
 
-export const createInvoice = () => async (dispatch, getState) => {
+export const createInvoice = (options = {}) => async (dispatch, getState) => {
+  const { redirect } = options;
+
   const state = getState();
   const lastId = InvoiceSelectors.lastInvoiceIdSelector(state);
 
@@ -32,6 +35,10 @@ export const createInvoice = () => async (dispatch, getState) => {
   });
 
   await Storage.pushOneInvoice({ ...invoice, id });
+
+  if (redirect) {
+    dispatch(push(`/invoices/${id}`));
+  }
 };
 
 export const updateInvoice = (id, invoice) => async (dispatch) => {
